@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import os
 import shutil
 import argparse
 
@@ -12,13 +13,20 @@ def copyFiles(srcPath, dstPath, fileList):
         shutil.copy( ("%s/%s" % (srcPath, file)), dstPath )
     return 0
 
+def getFilePaths(fileList, searchPath):
+    fullFilePathList = []
+    for file in fileList:
+        for root, dirs, files in os.walk(searchPath):
+            if file in files:
+                fullFilePathList.append(os.path.join(root, file))
+    return fullFilePathList
+
 def getFileNames(filePath):
     with open(filePath) as fd:
         files = [line.rstrip('\n') for line in open(filePath)]
     return files
 
 def main(args):
-
     if args.mnt:
         mountpath = args.mnt
     else:
@@ -37,7 +45,10 @@ def main(args):
         destPath = "/tmp/"
 
     filesList = getFileNames(propFile)
-    status = copyFiles(mountpath, destPath, filesList)
+    fullFilePathList = getFilePaths(filesList, mountpath)
+    for everyfile in fullFilePathList:
+        print everyfile
+    #status = copyFiles(mountpath, destPath, filesList)
 
     if status != 0:
         print "Copy failed, please check for errors"
