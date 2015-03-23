@@ -44,9 +44,15 @@ def main(args):
     else:
         destPath = "/tmp/"
 
-    filesList = getFileNames(propFile)
-    fullFilePathList = getFilePaths(filesList, mountpath)
-    status = copyFiles(mountpath, destPath, fullFilePathList)
+    # Get prop stuff
+    fileslist = getFileNames(propFile)
+    fullfilepathlist = getFilePaths(fileslist, mountpath)
+    status = copyFiles(mountpath, destPath, fullfilepathlist)
+
+    # Get vendor stuff
+    fileslist = getFileNames(vendorFile)
+    fullfilepathlist = getFilePaths(fileslist, mountpath)
+    status = copyFiles(mountpath, destPath, fullfilepathlist)
 
     if status != 0:
         print "Copy failed, please check for errors"
