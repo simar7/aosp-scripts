@@ -10,7 +10,7 @@ def failed():
 
 def copyFiles(srcPath, dstPath, fileList):
     for file in fileList:
-        shutil.copy( ("%s/%s" % (srcPath, file)), dstPath )
+        shutil.copy(file, dstPath)
     return 0
 
 def getFilePaths(fileList, searchPath):
@@ -46,9 +46,7 @@ def main(args):
 
     filesList = getFileNames(propFile)
     fullFilePathList = getFilePaths(filesList, mountpath)
-    for everyfile in fullFilePathList:
-        print everyfile
-    #status = copyFiles(mountpath, destPath, filesList)
+    status = copyFiles(mountpath, destPath, fullFilePathList)
 
     if status != 0:
         print "Copy failed, please check for errors"
